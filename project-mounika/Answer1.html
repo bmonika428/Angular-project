@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body align="center">
+
+<div ng-app="myApp" ng-controller="myCtrl">
+<h1>Admin Page Authentication</h1>
+User-id : <input type="text" ng-model="userid"><br><br>
+Password : <input type="password" ng-model="password"><br>
+<br>
+<button ng-click="login()">login</button>
+<h5 ng-show="note2"> Login Successfull </h5>
+<h4 ng-show="note1" style="color:gray">! Try other than administrator as id and password to throw exception</h4>
+<h3 style="color:red">{{error}}</h3>
+<h3 style="color:green">{{hintMessage}}</h3>
+</div>
+
+<script>
+var app = angular.module('myApp', [])
+.factory('$exceptionHandler',function($injector){
+	return function(exception,cause){
+		var $rootScope=$injector.get('$rootScope');
+		$rootScope.error="There has been an error: the error is:"+exception.message;
+	};
+});
+
+app.controller('myCtrl', function($scope) {
+    $scope.userid = "administrator";
+    $scope.password = "administrator";
+    $scope.note1=true;
+    $scope.note2=false;
+
+    $scope.login=function(){
+    	if($scope.userid=="administrator" && $scope.password=="administrator")
+    	{
+    		 $scope.note1=true;
+    		$scope.note2=true;
+    	}
+    	else
+    	{
+    		$scope.note1=false;
+    		$scope.note2=false;
+    		try{
+    			myFunctionCall(); //Function does not exist to throw exception
+    		}
+    		finally
+    		{	
+			$scope.hintMessage="Please call helpdesk";    
+    		}
+    	}
+    }
+});
+</script>
+
+</body>
+</html>
+

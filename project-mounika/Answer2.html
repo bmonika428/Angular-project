@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+<div ng-app="myApp" ng-controller="myCtrl">
+<h1>Function to get values between 3 and 4</h1>
+<br>
+<button ng-click="myFunction(1,2,3,4,5,6,7,8,9,10)">Click to Get Values</button>
+<ul ng-repeat="item in items">
+    <li>{{item}}</li>
+</ul>
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+   $scope.items=[];
+
+    $scope.myFunction=function(){
+        $scope.reduce(arguments);
+    }
+     $scope.reduce=function(arr1)
+    {
+        var arr = Array.prototype.slice.call(arr1);
+        var arrval=arr.splice(0,1);
+        if(arrval[0]>=3 && arrval[0]<=5)$scope.items.push(arrval[0]);
+        if(arr.length>0)$scope.reduce(arr);
+    }
+});
+</script>
+</body>
+</html>
+
